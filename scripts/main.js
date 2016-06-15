@@ -23,7 +23,7 @@ var App = React.createClass({
 	getInitialState : function(){
 		return {
 			isAuthenticated : false,
-			uid : '',
+			authData : {},
 			video : {url: 'https://www.youtube.com/embed/Hn12VMlWFy8'}
 		}
 	},
@@ -45,20 +45,31 @@ var App = React.createClass({
 
 	authHandler : function(error, authData) {
 		if (error) {
-			console.log("Login Failed!", error);
+			alert("Login Failed! Either the username or password is incorrect", error);
 		} else {
 			console.log("Authenticated successfully with payload:", authData);
-			this.setState({isAuthenticated : true, uid : authData.uid});
+			this.setState({isAuthenticated : true, authData : authData});
 		}
   },
+
+	getUsername : function(authData){
+		let username = '';
+		if(authData.hasOwnProperty('password')){
+			username = authData.password.email.replace('@explorer.com', '');
+		}
+
+		return username;
+
+	},
 
 	renderMainPage : function() {
 		let isAuthenticated = this.state.isAuthenticated;
 		let mainPage;
+		let username = this.getUsername(this.state.authData);
 
 		if(isAuthenticated){
 			return (
-				<ClassMainPage currentVideo={this.props.params.classId}/>
+				<ClassMainPage username={username} currentVideo={this.props.params.classId}/>
 			)
 		} else {
 			return (
@@ -67,14 +78,19 @@ var App = React.createClass({
 		}
 	},
 
+
 	render: function(){
 
+		var authData = this.state.authData;
+		let username = '';
+		let ad = this.state.authData;
+		username=this.getUsername(this.state.authData);
 
 		return(
 			<div className="app">
-  				<LeftColumn/>
+  				<LeftColumn username={username}/>
   				<div className="top_nav">
-						<TopNav/>
+						<TopNav username={username}/>
 					</div>
 
 					{this.renderMainPage()}

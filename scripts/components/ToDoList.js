@@ -13,7 +13,7 @@ var ToDoList = React.createClass({
   },
 
   componentDidMount : function() {
-    base.syncState('/notes', {
+    base.syncState(this.props.username + '/notes', {
       context : this,
       state : 'notes'
     });

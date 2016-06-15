@@ -5,14 +5,10 @@ var Login = React.createClass({
   submit : function(event) {
     event.preventDefault();
 
-    console.log("submitting!");
-
     var login = {
       username : this.refs.Username.value,
       password : this.refs.Password.value
     }
-
-    console.log(login);
 
     this.props.authenticate(login);
   },

@@ -13,12 +13,12 @@ var LeftColumn = React.createClass({
               </div>
               <div className="clearfix" />
 
-            <MenuProfileQuickInfo/>
+            <MenuProfileQuickInfo username={this.props.username}/>
             <br/>
             <SideMenu/>
           </div>
         </div>
-         
+
       )
   }
 });

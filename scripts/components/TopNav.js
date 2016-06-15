@@ -2,6 +2,16 @@ import React from 'react';
 
 var TopNav = React.createClass({
   render: function() {
+    let username = this.props.username;
+    let imgSrc = '';
+    console.log(username);
+    let loginStatus = 'Please login';
+    if(username.length > 0){
+      loginStatus = 'Welcome,';
+      imgSrc = "images/" + username + "_profile_pic" + ".jpg";
+      console.log(imgSrc);
+    }
+
     return (
 
       <div className="nav_menu">
@@ -12,7 +22,7 @@ var TopNav = React.createClass({
           <ul className="nav navbar-nav navbar-right">
             <li className>
               <a href="javascript:;" className="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                <img src="images/profile_pic.jpg" alt />Steven MacCoun
+                <img src={imgSrc} alt />{username}
                 <span className=" fa fa-angle-down" />
               </a>
               <ul className="dropdown-menu dropdown-usermenu pull-right">

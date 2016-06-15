@@ -12,11 +12,11 @@ var ClassMainPage = React.createClass({
 
 		return (
 			<div className="right_col">
-				 
+
 				<VideoShower  currentVideo={this.props.currentVideo} setVideo={this.setVideo}/>
-				<ToDoList/>
+				<ToDoList username={this.props.username}/>
 	    		<Comments/>
-	    		
+
 	    	</div>
 		)
 	}
