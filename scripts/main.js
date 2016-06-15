@@ -13,8 +13,8 @@ import { Router, Route, DefaultRoute, hashHistory, IndexRoute, Navigation, Link,
 var createBrowserHistory = require('history/lib/createBrowserHistory');
 
 var Rebase = require('re-base');
-var base = Rebase.createClass('https://project-8672031736751064723.firebaseio.com/');
-
+var base = Rebase.createClass('https://inner-space.firebaseio.com/');
+const ref = new Firebase("https://inner-space.firebaseio.com/");
 
 
 var App = React.createClass({
@@ -22,7 +22,8 @@ var App = React.createClass({
 
 	getInitialState : function(){
 		return {
-			isLoggedIn : false,
+			isAuthenticated : false,
+			uid : '',
 			video : {url: 'https://www.youtube.com/embed/Hn12VMlWFy8'}
 		}
 	},
@@ -34,24 +35,40 @@ var App = React.createClass({
 
 
 
-	authenticate : function(){
-		this.setState({isLoggedIn : true});
-		console.log(this.state.isLoggedIn);
+	authenticate : function(loginData){
+		ref.authWithPassword({
+		  email    : loginData.username,
+		  password : loginData.password
+		}, this.authHandler);
+
 	},
 
-	render: function(){
-		let isAuthenticated = this.state.isLoggedIn;
+	authHandler : function(error, authData) {
+		if (error) {
+			console.log("Login Failed!", error);
+		} else {
+			console.log("Authenticated successfully with payload:", authData);
+			this.setState({isAuthenticated : true, uid : authData.uid});
+		}
+  },
+
+	renderMainPage : function() {
+		let isAuthenticated = this.state.isAuthenticated;
 		let mainPage;
 
 		if(isAuthenticated){
-			mainPage = (
+			return (
 				<ClassMainPage currentVideo={this.props.params.classId}/>
 			)
 		} else {
-			mainPage = (
+			return (
 				<Login authenticate={this.authenticate}/>
 			)
 		}
+	},
+
+	render: function(){
+
 
 		return(
 			<div className="app">
@@ -59,7 +76,8 @@ var App = React.createClass({
   				<div className="top_nav">
 						<TopNav/>
 					</div>
-					{mainPage}
+
+					{this.renderMainPage()}
 			</div>
 		)
 	}

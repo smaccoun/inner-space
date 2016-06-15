@@ -1,20 +1,32 @@
 import React from 'react';
 
 var Login = React.createClass({
+
+  submit : function(event) {
+    event.preventDefault();
+
+    console.log("submitting!");
+
+    var login = {
+      username : this.refs.Username.value,
+      password : this.refs.Password.value
+    }
+
+    console.log(login);
+
+    this.props.authenticate(login);
+  },
+
   render: function() {
     return (
       <div className="right_col">
         <h1>Login Form</h1>
-        <div>
-          <input type="text" className="form-control" placeholder="Username" required />
-        </div>
-        <div>
-          <input type="password" className="form-control" placeholder="Password" required />
-        </div>
-        <div>
-          <a className="btn btn-default submit" onClick={this.props.authenticate}>Log in</a>
+        <form ref="login" onSubmit={this.submit}>
+          <input type="text" className="form-control" ref="Username" required />
+          <input type="password" className="form-control" ref="Password" required />
+          <button className="btn btn-default submit" >Log in </button>
           <a className="reset_pass" href="#">Lost your password?</a>
-        </div>
+        </form>
       </div>
     );
   }

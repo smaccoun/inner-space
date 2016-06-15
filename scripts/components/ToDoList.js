@@ -1,7 +1,7 @@
 import React from 'react';
 
 var Rebase = require('re-base');
-var base = Rebase.createClass('https://project-8672031736751064723.firebaseio.com/');
+var base = Rebase.createClass('https://inner-space.firebaseio.com/');
 
 var ToDoList = React.createClass({
 
@@ -122,7 +122,7 @@ var Note = React.createClass({
     return (
       <li>
         <div className="note_content">
-          {note.text} 
+          {note.text}
         </div>
         <div className="note_tools">
           <ul>
